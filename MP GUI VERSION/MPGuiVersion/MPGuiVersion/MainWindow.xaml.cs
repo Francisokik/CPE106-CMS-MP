@@ -40,7 +40,7 @@ namespace MPGuiVersion
             try
             {
                 // Connection String based on Server Connector by Visual Studio
-                this.connection_string = "Data Source=ASUS-ACE;Initial Catalog=CMSData;Integrated Security=True";
+                this.connection_string = "Data Source=KIKO\\SQLEXPRESS;Initial Catalog=CMSDATAADJUSTED;Integrated Security=True";
 
                 // Creates new Connection Object based on connection string
                 this.sql_conn = new SqlConnection(connection_string);

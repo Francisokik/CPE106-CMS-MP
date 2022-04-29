@@ -10,7 +10,12 @@ namespace MPGuiVersion
     {
         public static void addTask(Task T)
         {
-
+            SqlConnection conn;
+            string message;
+            bool state;
+            DatabaseConnection.connectToSQL(out conn, out state, out message);
+            DatabaseConnection.addTask(conn, T);
+            DatabaseConnection.disconnectSQL(conn, out state);
         }
 
         public static void deleteTask(int target_id)
@@ -22,10 +27,6 @@ namespace MPGuiVersion
             DatabaseConnection.connectToSQL(out conn, out status, out output);
             DatabaseConnection.deleteTask(conn, target_id);
             DatabaseConnection.disconnectSQL(conn, out status);
-        }
-        public static void modifyItem()
-        {
-
         }
 
         public static void updateTask()

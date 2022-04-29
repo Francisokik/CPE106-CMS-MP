@@ -15,7 +15,7 @@ namespace MPGuiVersion
             try
             {
                 // Connection String based on Server Connector by Visual Studio
-                string connection_string = "Data Source=ASUS-ACE;Initial Catalog=CMSData;Integrated Security=True";
+                string connection_string = "Data Source=KIKO\\SQLEXPRESS;Initial Catalog=CMSDATAADJUSTED;Integrated Security=True";
 
                 // Creates new Connection Object based on connection string
                 sql_conn = new SqlConnection(connection_string);
@@ -166,7 +166,27 @@ namespace MPGuiVersion
 
         public static void addTask(SqlConnection conn, Task T)
         {
+            SqlCommand SP_addTask = new SqlCommand("createItems", conn);
+            SP_addTask.CommandType = CommandType.StoredProcedure;
 
+            SP_addTask.Parameters.AddWithValue("@taskName", T.TaskName);
+            SP_addTask.Parameters.AddWithValue("@dueDate", T.DueDate);
+            SP_addTask.Parameters.AddWithValue("@isDone", T.IsDone);
+            SP_addTask.Parameters.AddWithValue("@budge", T.Budget);
+            SP_addTask.Parameters.AddWithValue("@employeesNeeded", T.EmployeesNeeded);
+            SP_addTask.Parameters.AddWithValue("@description", T.Description);
+            SP_addTask.Parameters.AddWithValue("@materialsNeeded", T.MaterialsNeeded);
+
+            SP_addTask.ExecuteNonQuery();
+        }
+
+        public static void deleteItem(SqlConnection conn, int target_id)
+        {
+            SqlCommand SP_deleteItem = new SqlCommand("deleteItem", conn);
+            SP_deleteItem.CommandType = CommandType.StoredProcedure;
+
+            SP_deleteItem.Parameters.AddWithValue("@ItemID", target_id);
+            SP_deleteItem.ExecuteNonQuery();
         }
 
         public static void deleteTask(SqlConnection conn, int TID)
