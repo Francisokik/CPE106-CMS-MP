@@ -44,8 +44,8 @@ namespace MPGuiVersion
             {
                 sql_conn.Close();
                 closed = true;
-            }                
-            catch 
+            }
+            catch
             {
                 closed = false;
             }
@@ -55,7 +55,8 @@ namespace MPGuiVersion
         {
             SqlCommand SP_getCommand = null;
 
-            switch(type){
+            switch (type)
+            {
                 case "Employees":
                     SP_getCommand = new SqlCommand("getAllEmployees", conn);
                     break;
@@ -94,7 +95,7 @@ namespace MPGuiVersion
             //EXECUTE [createEmployee] 1, 'Rence Joseph', 'Romero', 'Cadsawan', '', 1, 'Software', 'Senior Dev', 'rjrcadsawan@mymail.mapua.edu.ph', '200000'
             //@EmployeeID @FirstName @MiddleName @LastName @Suffix @Sex @Department @Position @EmailAddress @Salary
 
- 
+
             SqlCommand SP_addemployees = new SqlCommand("createEmployee", conn);
             SP_addemployees.CommandType = CommandType.StoredProcedure;
 
@@ -106,9 +107,11 @@ namespace MPGuiVersion
 
             int gender = 0;
 
-            if (E.Sex == "Male"){
+            if (E.Sex == "Male")
+            {
                 gender = 1;
-            } else if (E.Sex == "Female")
+            }
+            else if (E.Sex == "Female")
             {
                 gender = 2;
             }
@@ -139,7 +142,26 @@ namespace MPGuiVersion
 
         public static void addTransaction(SqlConnection conn, Transaction T)
         {
+            SqlCommand SP_addTransaction = new SqlCommand("createTransaction", conn);
+            SP_addTransaction.CommandType = CommandType.StoredProcedure;
 
+            SP_addTransaction.Parameters.AddWithValue("@TransactionID", T.TransactionID);
+            SP_addTransaction.Parameters.AddWithValue("@fullName", T.Name);
+            SP_addTransaction.Parameters.AddWithValue("@isCredit", T.TransactionC);
+            SP_addTransaction.Parameters.AddWithValue("@isDebit", T.TransactionD);
+            SP_addTransaction.Parameters.AddWithValue("@amount", T.Amount);
+            SP_addTransaction.Parameters.AddWithValue("@Description", T.Summary);
+             
+            SP_addTransaction.ExecuteNonQuery();
+        }
+
+        public static void deleteTransaction(SqlConnection conn, int T)
+        {
+            SqlCommand SP_deleteTransaction = new SqlCommand("deleteTransaction", conn);
+            SP_deleteTransaction.CommandType = CommandType.StoredProcedure;
+
+            SP_deleteTransaction.Parameters.AddWithValue("@TransactionID", T);
+            SP_deleteTransaction.ExecuteNonQuery();
         }
 
         public static void addTask(SqlConnection conn, Task T)
@@ -147,8 +169,19 @@ namespace MPGuiVersion
 
         }
 
-        
+        public static void deleteTask(SqlConnection conn, int TID)
+        {
+            SqlCommand SP_deleteTask = new SqlCommand("deleteTask", conn);
+            SP_deleteTask.CommandType = CommandType.StoredProcedure;
 
-       
+            SP_deleteTask.Parameters.AddWithValue("@TaskID", TID);
+            SP_deleteTask.ExecuteNonQuery();
+        }
+
+
+
+
+
+
     }
 }
